@@ -6,7 +6,7 @@ set -e
 # Configuration
 SERVICE_NAME="coin-acceptor"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
-TARGET_USER="jukebox"
+TARGET_USER="root"
 PROJECT_ROOT="/home/user/yt-jukebox-client"
 SCRIPT_SRC="coin-acceptor.py"
 SCRIPT_DEST="${PROJECT_ROOT}/coin-acceptor/coin-acceptor.py"
@@ -59,7 +59,7 @@ Type=simple
 User=${TARGET_USER}
 Group=dialout
 WorkingDirectory=${PROJECT_ROOT}/infra/scripts
-ExecStart=/usr/bin/python3 ${SCRIPT_DEST}
+ExecStart=python3 ${SCRIPT_DEST}
 EnvironmentFile=${PROJECT_ROOT}/.env
 Restart=always
 RestartSec=3s
