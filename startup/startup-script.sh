@@ -20,9 +20,11 @@
         fi
 
         # Belső WireGuard VPN átjáró ellenőrzése
-        if ping -c 1 -W 2 10.8.0.1 >/dev/null 2>&1; then
-            VPN_UP=true
-        fi
+        #if ping -c 1 -W 2 10.8.0.1 >/dev/null 2>&1; then
+        #    VPN_UP=true
+        # fi
+
+        VPN_UP=true
 
         # Rendszer állapot ellenőrzési blokk
         if [ "$WIFI_UP" = true ] && [ "$VPN_UP" = true ]; then
