@@ -8,7 +8,7 @@ SERVICE_SRC="jukebox-startup.service"
 SERVICE_DEST="/etc/systemd/system/${SERVICE_NAME}.service"
 SUDOERS_FILE="/etc/sudoers.d/${SERVICE_NAME}"
 PROJECT_ROOT="/var/www/yt-jukebox-client"
-SCRIPT_DEST="${PROJECT_ROOT}/coin-acceptor/startup/startup-script.sh"
+SCRIPT_DEST="${PROJECT_ROOT}/startup/startup-script.sh"
 
 echo "=== Starting Jukebox Startup Deployment ==="
 

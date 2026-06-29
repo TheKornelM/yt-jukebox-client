@@ -52,7 +52,7 @@ if ! id -u "$TARGET_USER" &> /dev/null; then
     
     # Create system user without interactive shell access for security
     useradd -m -s /bin/false "$TARGET_USER"
-    echo "${TARGET_USER}:${RANDOM_PW}" | chpasswd
+    echo "${TARGET_USER}:${RANDOM_PW}" | chpasswd   
     echo "[OK] User '${TARGET_USER}' created successfully with a strong random password."
 else
     echo "[OK] User '${TARGET_USER}' already exists."
