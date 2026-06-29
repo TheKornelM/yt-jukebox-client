@@ -32,17 +32,6 @@ echo "--- Step 4: Deploying artifacts and systemd activation ---"
 # Verify project directory infrastructure exists
 mkdir -p "$(dirname "${SCRIPT_DEST}")"
 
-# Copy execution script into project deployment sector if found in current runtime dir
-if [ -f "${SCRIPT_SRC}" ]; then
-    echo "[INFO] Staging ${SCRIPT_SRC} to deployment path..."
-    cp "${SCRIPT_SRC}" "${SCRIPT_DEST}"
-elif [ -f "coin_acceptor.py" ]; then
-    echo "[INFO] Staging localized coin_acceptor.py to deployment path..."
-    cp "coin_acceptor.py" "${SCRIPT_DEST}"
-else
-    echo "[WARN] Source script coin_acceptor.py not found in local workspace path. Ensure it resides at ${SCRIPT_DEST} manually."
-fi
-
 # Ensure correct file runtime ownerships
 chown -R "${TARGET_USER}:${TARGET_USER}" "${PROJECT_ROOT}"
 chmod +x "${SCRIPT_DEST}"
