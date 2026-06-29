@@ -23,7 +23,6 @@ fi
 # 1. INSTALL DEPENDENCIES
 # ==========================================================
 echo "--- Step 1: Checking Python environment and packages ---"
-apt-get update -y
 
 if ! command -v pip3 &> /dev/null; then
     echo "[INFO] pip3 not found. Installing python3-pip..."
