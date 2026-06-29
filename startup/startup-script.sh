@@ -43,6 +43,8 @@
                     echo "[OK] Hardver es halozat ellenorizve. Chromium bongeszo inditasa Kiosk modban..."
                     chromium-browser --kiosk \
                                     "$TARGET_URL" &
+
+                    sleep 15
                 fi
             else
                 echo "[KRITIKUS] A Chromium inditasa nem sikerult, mert a(z) ermevalogato szolgaltatas (${COIN_SERVICE}) nem tudott elindulni."
