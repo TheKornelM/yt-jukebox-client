@@ -3,14 +3,14 @@
 set -e
 
 # Target paths definition schema
-SERVICE_NAME="jukebox-supervisor"
-SERVICE_SRC="infra/jukebox-supervisor.service"
+SERVICE_NAME="jukebox-startup"
+SERVICE_SRC="jukebox-startup.service"
 SERVICE_DEST="/etc/systemd/system/${SERVICE_NAME}.service"
 SUDOERS_FILE="/etc/sudoers.d/${SERVICE_NAME}"
 PROJECT_ROOT="/var/www/yt-jukebox-client"
 SCRIPT_DEST="${PROJECT_ROOT}/coin-acceptor/startup/startup-script.sh"
 
-echo "=== Starting Jukebox Supervisor Deployment ==="
+echo "=== Starting Jukebox Startup Deployment ==="
 
 # Check context execution permissions
 if [ "$EUID" -ne 0 ]; then
