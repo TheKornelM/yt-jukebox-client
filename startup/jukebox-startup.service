@@ -7,8 +7,8 @@ Wants=graphical.target
 Type=simple
 User=user
 Group=user
-WorkingDirectory=/var/www/yt-jukebox-client/coin-acceptor/startup
-ExecStart=/bin/bash /var/www/yt-jukebox-client/coin-acceptor/startup/startup-script.sh
+WorkingDirectory=/var/www/yt-jukebox-client/startup
+ExecStart=/bin/bash /var/www/yt-jukebox-client/startup/startup-script.sh
 Restart=always
 RestartSec=5s
 
