@@ -9,7 +9,7 @@ SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 TARGET_USER="root"
 PROJECT_ROOT="/var/www/yt-jukebox-client"
 SCRIPT_SRC="coin-acceptor.py"
-SCRIPT_DEST="${PROJECT_ROOT}/coin-acceptor/coin-acceptor.py"
+SCRIPT_DEST="${PROJECT_ROOT}/coin-acceptor.py"
 
 # ==========================================================
 # 3. SHUTDOWN EXISTING SERVICE
@@ -58,7 +58,7 @@ After=network.target
 Type=simple
 User=${TARGET_USER}
 Group=dialout
-WorkingDirectory=${PROJECT_ROOT}/coin-acceptor
+WorkingDirectory=${PROJECT_ROOT}
 ExecStart=python3 ${SCRIPT_DEST}
 EnvironmentFile=${PROJECT_ROOT}/.env
 Restart=always
