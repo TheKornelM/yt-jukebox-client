@@ -1,63 +1,52 @@
-    #!/bin/bash
+#!/bin/bash
 
-    TARGET_URL="https://yt-jukebox.duckdns.org"
-    VPN_INTERFACE="wg0"
-    COIN_SERVICE="coin-acceptor.service"
-    CHECK_INTERVAL=5
+# Beállítások
+TARGET_URL="https://yt-jukebox.duckdns.org"
+COIN_SERVICE="coin-acceptor.service"
+CHECK_INTERVAL=5
 
-    export DISPLAY=:0
-    export XAUTHORITY=/home/user/.Xauthority
+export DISPLAY=:0
+export XAUTHORITY=/home/user/.Xauthority
 
-    echo "Zenegep halozati, kijelzo es hardver ellenorzo elindult..."
+echo "Zenegep inicializalasa elindult..."
 
-    while true; do
-        WIFI_UP=false
-        VPN_UP=false
+# ==========================================================
+# 1. ELLENŐRZŐ CIKLUS (Addig fut, amíg a Net VAGY a Hardver hibás)
+# ==========================================================
+while true; do
+    WIFI_UP=false
+    COIN_UP=false
 
-        # Külső internet kapcsolat ellenőrzése
-        if ping -c 1 -W 2 1.1.1.1 >/dev/null 2>&1; then
-            WIFI_UP=true
-        fi
+    if ping -c 1 -W 2 1.1.1.1 >/dev/null 2>&1; then
+        WIFI_UP=true
+    fi
 
-        # Belső WireGuard VPN átjáró ellenőrzése
-        #if ping -c 1 -W 2 10.8.0.1 >/dev/null 2>&1; then
-        #    VPN_UP=true
-        # fi
+    # Érmeválogató szerviz ellenőrzése
+    if systemctl is-active --quiet "$COIN_SERVICE"; then
+        COIN_UP=true
+    fi
 
-        VPN_UP=true
+    if [ "$WIFI_UP" = true ] && [ "$COIN_UP" = true ]; then
+        echo "[OK] Internet es ermevalogato is uzemkesz. Tovabblepes a feluletre..."
+        break
+    fi
 
-        # Rendszer állapot ellenőrzési blokk
-        if [ "$WIFI_UP" = true ] && [ "$VPN_UP" = true ]; then
-            
-            if ! systemctl is-active --quiet "$COIN_SERVICE"; then
-                echo "[FIGYELMEZTETÉS] Az ermevalogato szolgaltatas leallt. Újraindítás a grafikus felület előtt: ${COIN_SERVICE}..."
-                sudo systemctl start "$COIN_SERVICE"
-                sleep 1
-            else
-                echo "[OK] Ermevalogato szolgaltatas mukodik: ${COIN_SERVICE}."
-            fi
+    # Hibakezelés és javítási kísérlet a várakozás alatt
+    echo "[INFO] Várakozás a feltételekre... Wi-Fi: $WIFI_UP | Érmeválogató: $COIN_UP"
+    
+    if [ "$COIN_UP" = false ]; then
+        echo "[HARDVER] Ermevalogato szolgaltatas ($COIN_SERVICE) inditasa..."
+        sudo systemctl start "$COIN_SERVICE" --no-block >/dev/null 2>&1 || true
+    fi
 
-            # 2. Második ellenőrzés: Chromium Kiosk böngésző futtatása
-            if systemctl is-active --quiet "$COIN_SERVICE"; then
-                if ! pgrep -x "chromium-brows" > /dev/null; then
-                    echo "[OK] Hardver es halozat ellenorizve. Chromium bongeszo inditasa Kiosk modban..."
-                    chromium-browser --kiosk \
-                                    "$TARGET_URL" &
+    sleep "$CHECK_INTERVAL"
+done
 
-                    sleep 15
-                fi
-            else
-                echo "[KRITIKUS] A Chromium inditasa nem sikerult, mert a(z) ermevalogato szolgaltatas (${COIN_SERVICE}) nem tudott elindulni."
-            fi
-            
-        else
-            echo "[FIGYELMEZTETÉS] Hálózati hiba lépett fel. Várakozás... Wi-Fi: $WIFI_UP | VPN: $VPN_UP"
-            
-            if pgrep -x "chromium-brows" > /dev/null; then
-                echo "[INFO] Kapcsolat megszakadt, Chromium leallitasa a biztonsag erdekeben..."
-                pkill -x "chromium-brows"
-            fi
-        fi
+# ==========================================================
+# 2. INDÍTÁS (Csak akkor fut le, ha a fenti ciklus sikeresen lezárult)
+# ==========================================================
+echo "[OK] Feltételek teljesültek. Chromium indítása Kiosk módban..."
 
-        sleep "$CHECK_INTERVAL"
-    done
+# Elindítjuk a Chromiumot a háttérben, de a script itt már NEM futja újra
+exec chromium-browser --kiosk \
+    "$TARGET_URL"
