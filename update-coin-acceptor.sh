@@ -8,7 +8,7 @@ SERVICE_NAME="coin-acceptor"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 TARGET_USER="jukebox"
 PROJECT_ROOT="/home/user/yt-jukebox-client"
-SCRIPT_SRC="coin_acceptor.py"
+SCRIPT_SRC="coin-acceptor.py"
 SCRIPT_DEST="${PROJECT_ROOT}/coin-acceptor/coin-acceptor.py"
 
 # ==========================================================
