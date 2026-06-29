@@ -38,10 +38,6 @@ while true; do
             if ! pgrep -x "chromium-brows" > /dev/null; then
                 echo "[OK] Hardver es halozat ellenorizve. Chromium bongeszo inditasa Kiosk modban..."
                 chromium-browser --kiosk \
-                                 --no-first-run \
-                                 --noerrdialogs \
-                                 --disable-infobars \
-                                 --disable-session-crashed-bubble \
                                  "$TARGET_URL" &
             fi
         else
