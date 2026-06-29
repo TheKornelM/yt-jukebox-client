@@ -31,6 +31,8 @@ while true; do
             echo "[FIGYELMEZTETÉS] Az ermevalogato szolgaltatas leallt. Újraindítás a grafikus felület előtt: ${COIN_SERVICE}..."
             sudo systemctl start "$COIN_SERVICE"
             sleep 1
+        else
+            echo "[OK] Ermevalogato szolgaltatas mukodik: ${COIN_SERVICE}."
         fi
 
         # 2. Második ellenőrzés: Chromium Kiosk böngésző futtatása
