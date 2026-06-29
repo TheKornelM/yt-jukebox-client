@@ -7,7 +7,7 @@ set -e
 SERVICE_NAME="coin-acceptor"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 TARGET_USER="root"
-PROJECT_ROOT="/home/user/yt-jukebox-client"
+PROJECT_ROOT="/var/www/yt-jukebox-client"
 SCRIPT_SRC="coin-acceptor.py"
 SCRIPT_DEST="${PROJECT_ROOT}/coin-acceptor/coin-acceptor.py"
 
@@ -58,7 +58,7 @@ After=network.target
 Type=simple
 User=${TARGET_USER}
 Group=dialout
-WorkingDirectory=${PROJECT_ROOT}
+WorkingDirectory=${PROJECT_ROOT}/coin-acceptor
 ExecStart=python3 ${SCRIPT_DEST}
 EnvironmentFile=${PROJECT_ROOT}/.env
 Restart=always
