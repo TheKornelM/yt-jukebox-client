@@ -9,7 +9,7 @@ SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 TARGET_USER="jukebox"
 PROJECT_ROOT="/home/user/yt-jukebox-client"
 SCRIPT_SRC="coin_acceptor.py"
-SCRIPT_DEST="${PROJECT_ROOT}/coin_acceptor/coin_acceptor.py"
+SCRIPT_DEST="${PROJECT_ROOT}/coin-acceptor/coin_acceptor.py"
 
 # ==========================================================
 # 3. SHUTDOWN EXISTING SERVICE
