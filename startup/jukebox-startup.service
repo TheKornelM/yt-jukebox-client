@@ -1,0 +1,16 @@
+[Unit]
+Description=Jukebox Startup Service
+After=network.target sound.target graphical.target lightdm.service
+Wants=graphical.target
+
+[Service]
+Type=simple
+User=user
+Group=user
+WorkingDirectory=/var/www/yt-jukebox-client/coin-acceptor/startup
+ExecStart=/bin/bash /var/www/yt-jukebox-client/coin-acceptor/startup/startup-script.sh
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=graphical.target
